@@ -50,6 +50,8 @@ http://localhost:8080
 ```
 
 As variáveis têm valores padrão; para customizar, copie `.env.example` para `.env`.
+O Postgres é publicado no host em `POSTGRES_PORT` (padrão `5432`), permitindo
+inspecionar o banco por um cliente externo (Beekeeper, DBeaver, psql).
 
 ### Ambiente de desenvolvimento (sem Docker)
 

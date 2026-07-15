@@ -7,6 +7,11 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-cadastro}
     volumes:
       - pgdata:/var/lib/postgresql/data
+    # Porta do Postgres publicada no host, para acessar o banco por um cliente
+    # externo (Beekeeper, DBeaver, psql). A porta interna do container continua
+    # 5432 (usada pela API na rede do Compose); só a porta do host é configurável.
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 5s
