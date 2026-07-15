@@ -12,6 +12,24 @@ export function onlyDigits(value: string): string {
   return value.replace(/\D/g, "");
 }
 
+/**
+ * Aplica a máscara de CPF (000.000.000-00) conforme o usuário digita.
+ * A formatação é só visual — o backend recebe e armazena apenas os dígitos.
+ */
+export function formatCpf(value: string): string {
+  const digits = onlyDigits(value).slice(0, 11);
+  if (digits.length > 9) {
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
+  }
+  if (digits.length > 6) {
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+  }
+  if (digits.length > 3) {
+    return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+  }
+  return digits;
+}
+
 export function isValidCpf(value: string): boolean {
   const cpf = onlyDigits(value);
   if (cpf.length !== 11) return false;

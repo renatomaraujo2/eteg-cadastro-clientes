@@ -5,6 +5,7 @@ import type { ColorOption } from "../types";
 import { ApiError, createClient } from "../api";
 import {
   buildClientSchema,
+  formatCpf,
   type ClientFormValues,
 } from "../validation";
 
@@ -30,6 +31,10 @@ export function ClientForm({ colors, onSuccess }: Props) {
     resolver: zodResolver(schema),
     defaultValues: { favoriteColor: "" },
   });
+
+  // Registro do CPF reaproveitado no input para adicionar a máscara sem perder
+  // a integração com o React Hook Form.
+  const cpfField = register("cpf");
 
   async function onSubmit(values: ClientFormValues) {
     setFormError(null);
@@ -76,7 +81,14 @@ export function ClientForm({ colors, onSuccess }: Props) {
           type="text"
           inputMode="numeric"
           placeholder="000.000.000-00"
-          {...register("cpf")}
+          maxLength={14}
+          {...cpfField}
+          onChange={(event) => {
+            // Aplica a máscara enquanto digita; o valor formatado segue para o
+            // React Hook Form. O backend recebe e salva apenas os dígitos.
+            event.target.value = formatCpf(event.target.value);
+            cpfField.onChange(event);
+          }}
         />
         {errors.cpf && <span className="error">{errors.cpf.message}</span>}
       </div>
