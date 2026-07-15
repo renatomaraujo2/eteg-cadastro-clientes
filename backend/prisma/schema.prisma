@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Cliente cadastrado pelo formulário.
+/// CPF e e-mail são únicos: garantem que cada pessoa se cadastre uma única vez.
+model Client {
+  id            String   @id @default(uuid()) @db.Uuid
+  fullName      String   @map("full_name")
+  /// Armazenado apenas com dígitos (11 caracteres), sem máscara.
+  cpf           String   @unique
+  email         String   @unique
+  /// Slug da cor escolhida (ex.: "vermelho"). As opções vêm da config do app.
+  favoriteColor String   @map("favorite_color")
+  notes         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("clients")
+}
