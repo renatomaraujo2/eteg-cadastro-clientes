@@ -1,0 +1,144 @@
+:root {
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --border: #d7dbe0;
+  --primary: #1e88e5;
+  --primary-dark: #1669b8;
+  --error: #d32f2f;
+  --success: #2e7d32;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 20px 64px;
+}
+
+.header h1 {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+}
+
+.header p {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  /* Fininho aceno ao arco-íris do enunciado. */
+  border-top: 4px solid;
+  border-image: linear-gradient(
+      to right,
+      #e53935,
+      #fb8c00,
+      #fdd835,
+      #43a047,
+      #1e88e5,
+      #3949ab,
+      #8e24aa
+    )
+    1;
+}
+
+.field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.82rem;
+  margin-top: 4px;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.alert--error {
+  background: #fdecea;
+  color: var(--error);
+}
+
+.success {
+  text-align: center;
+}
+
+.success h2 {
+  margin-top: 0;
+  color: var(--success);
+}
