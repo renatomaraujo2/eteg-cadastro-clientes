@@ -1,4 +1,4 @@
-import type { ApiErrorResponse, ColorOption } from "./types";
+import type { ApiErrorResponse, Client, ColorOption } from "./types";
 import type { ClientFormValues } from "./validation";
 
 /** Erro lançado quando a API responde com status de falha. */
@@ -16,6 +16,12 @@ export class ApiError extends Error {
 export async function fetchColors(): Promise<ColorOption[]> {
   const res = await fetch("/api/colors");
   if (!res.ok) throw new ApiError("Não foi possível carregar as cores.");
+  return res.json();
+}
+
+export async function fetchClients(): Promise<Client[]> {
+  const res = await fetch("/api/clients");
+  if (!res.ok) throw new ApiError("Não foi possível carregar os clientes.");
   return res.json();
 }
 

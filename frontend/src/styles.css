@@ -29,11 +29,33 @@ body {
 }
 
 .header h1 {
-  margin: 0 0 4px;
+  margin: 0 0 12px;
   font-size: 1.6rem;
 }
 
-.header p {
+.nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.nav__link {
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+}
+
+.nav__link--active {
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.subtitle {
   margin: 0 0 24px;
   color: var(--muted);
 }
@@ -141,4 +163,57 @@ body {
 .success h2 {
   margin-top: 0;
   color: var(--success);
+}
+
+.empty {
+  text-align: center;
+}
+
+.empty p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+/* A tabela pode estourar a largura em telas pequenas; rola dentro do card. */
+.table-wrapper {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.color-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }
