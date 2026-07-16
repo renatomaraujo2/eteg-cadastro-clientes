@@ -49,13 +49,28 @@ describe("POST /api/clients", () => {
 
   it("responde 409 quando o CPF já existe", async () => {
     vi.mocked(createClient).mockRejectedValue(
-      new ConflictError("Este CPF já foi cadastrado.", "cpf"),
+      new ConflictError({ cpf: ["Este CPF já foi cadastrado."] }),
     );
 
     const res = await request(app).post("/api/clients").send(validPayload);
 
     expect(res.status).toBe(409);
     expect(res.body.errors.cpf).toBeDefined();
+  });
+
+  it("responde 409 com CPF e e-mail juntos quando ambos já existem", async () => {
+    vi.mocked(createClient).mockRejectedValue(
+      new ConflictError({
+        cpf: ["Este CPF já foi cadastrado."],
+        email: ["Este e-mail já foi cadastrado."],
+      }),
+    );
+
+    const res = await request(app).post("/api/clients").send(validPayload);
+
+    expect(res.status).toBe(409);
+    expect(res.body.errors.cpf).toBeDefined();
+    expect(res.body.errors.email).toBeDefined();
   });
 });
 

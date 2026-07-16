@@ -20,11 +20,11 @@ clientsRouter.post("/", async (req, res, next) => {
       });
       return;
     }
-    // CPF/e-mail duplicado -> 409.
+    // CPF e/ou e-mail duplicado -> 409 com todos os campos em conflito.
     if (error instanceof ConflictError) {
       res.status(409).json({
         message: error.message,
-        errors: { [error.field]: [error.message] },
+        errors: error.fieldErrors,
       });
       return;
     }
