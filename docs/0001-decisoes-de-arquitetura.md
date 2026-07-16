@@ -74,3 +74,31 @@ funcione.
 *Trade-off:* a listagem hoje traz **todos** os registros de uma vez. Com volume,
 o passo seguinte é paginação/busca — deixei fora agora para não adicionar
 complexidade sem necessidade real.
+
+### 8. Máscara de CPF no front, dígitos no banco
+
+O campo de CPF é formatado enquanto o usuário digita (`000.000.000-00`), mas a
+persistência guarda **apenas os dígitos** (11 caracteres). A máscara é uma
+preocupação de apresentação; a normalização acontece no backend (o mesmo Zod que
+valida também reduz o CPF a dígitos), então o dado fica limpo e consistente para
+buscas e para a constraint de unicidade.
+
+Optei por implementar a máscara **sem biblioteca** — um formatador pequeno,
+suficiente para o caso e sem trazer dependência nova. A validação de dígito
+verificador (não só o formato) é compartilhada pela mesma regra em front e back.
+
+### 9. Portas configuráveis por variável de ambiente
+
+As portas expostas no host são parametrizáveis via `.env` (`WEB_PORT`, `API_PORT`,
+`POSTGRES_PORT`), evitando conflito com serviços que a pessoa já rode na máquina e
+facilitando a publicação em ambientes diferentes.
+
+Há uma diferença de design entre elas, proposital:
+
+- **`POSTGRES_PORT`** muda só a porta **no host** (para clientes externos como
+  Beekeeper/psql). A porta interna do container segue `5432`, que é como a API
+  acessa o banco pela rede do Compose — não faz sentido variar isso.
+- **`API_PORT`** muda a porta **de ponta a ponta**: a API escuta nela e o Nginx faz
+  proxy para ela. Para o Nginx acompanhar sem hard-code, o `nginx.conf` virou um
+  *template* resolvido por `envsubst` na subida do container. Assim a mesma variável
+  mantém API e proxy sempre em sincronia.
