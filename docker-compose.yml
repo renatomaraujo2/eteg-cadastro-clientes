@@ -22,15 +22,22 @@ services:
     build: ./backend
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-cadastro}?schema=public
-      PORT: 3001
+      # Porta em que a API escuta. Configurável via API_PORT (o Nginx e o host
+      # abaixo usam a mesma variável, então mudar aqui não quebra o proxy).
+      PORT: ${API_PORT:-3001}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:8080}
       NODE_ENV: production
+    ports:
+      - "${API_PORT:-3001}:${API_PORT:-3001}"
     depends_on:
       db:
         condition: service_healthy
 
   web:
     build: ./frontend
+    environment:
+      # Repassada ao template do Nginx para montar o proxy_pass para a API.
+      API_PORT: ${API_PORT:-3001}
     ports:
       - "${WEB_PORT:-8080}:80"
     depends_on:

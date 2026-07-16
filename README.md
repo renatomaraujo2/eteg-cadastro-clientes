@@ -50,8 +50,18 @@ http://localhost:8080
 ```
 
 As variáveis têm valores padrão; para customizar, copie `.env.example` para `.env`.
-O Postgres é publicado no host em `POSTGRES_PORT` (padrão `5432`), permitindo
-inspecionar o banco por um cliente externo (Beekeeper, DBeaver, psql).
+
+As portas são configuráveis (útil se alguma já estiver em uso na sua máquina):
+
+| Variável        | Padrão | Serviço                                             |
+| --------------- | ------ | --------------------------------------------------- |
+| `WEB_PORT`      | 8080   | Front-end (Nginx)                                   |
+| `API_PORT`      | 3001   | API — a porta que ela escuta e onde o Nginx faz proxy |
+| `POSTGRES_PORT` | 5432   | Postgres no host (para clientes como Beekeeper/psql) |
+
+Exemplo: `API_PORT=4000 POSTGRES_PORT=5433 docker compose up --build`. O `API_PORT`
+é propagado para a API e para o proxy do Nginx, então mudar a porta não quebra a
+comunicação entre os serviços.
 
 ### Ambiente de desenvolvimento (sem Docker)
 
