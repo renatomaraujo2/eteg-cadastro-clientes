@@ -29,6 +29,7 @@ retorno claro de sucesso ou erro.
 ├── frontend/         # SPA React (Vite)
 │   └── src/
 ├── docs/             # decisões de arquitetura (ADRs)
+├── CHANGELOG.md      # histórico de mudanças
 └── docker-compose.yml
 ```
 
@@ -86,6 +87,25 @@ npm run dev                  # front em http://localhost:5173
 ```
 
 O Vite faz proxy de `/api` para a API, então basta abrir `http://localhost:5173`.
+
+### Migrations do banco
+
+Com Docker, as migrations são aplicadas **automaticamente** na subida da API
+(o entrypoint roda `prisma migrate deploy`). Para rodá-las manualmente, a partir
+de `backend/`:
+
+```bash
+# desenvolvimento: aplica as migrations e, se o schema mudou, cria uma nova
+npm run migrate:dev
+
+# criar uma migration com um nome específico (após editar prisma/schema.prisma)
+npm run migrate:dev -- --name descricao_da_mudanca
+
+# produção/CI: apenas aplica as migrations já existentes (não cria novas)
+npm run migrate:deploy
+```
+
+Os comandos usam a variável `DATABASE_URL` (veja `backend/.env.example`).
 
 ## API
 
